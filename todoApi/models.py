@@ -21,10 +21,11 @@ class Todo(db.Model):
 	title = db.Column(db.String(120),nullable=False)
 	description = db.Column(db.Text, nullable=True)
 	estTime = db.Column(db.Float, nullable=False)
-	date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-	date_finished = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+	created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+	deadline = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	#user in lowercase because we are referencing the table name (there are alsway lowercase) and Todo in User is a relationship an there
 	#we are referencing the class Todo
 	def __repr__(self):
 		return f"Todo('{self.title}', '{self.estTime}','{self.date_finished}')"
+
