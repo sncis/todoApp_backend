@@ -16,7 +16,12 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 from todoApi.resources import *
-api.add_resource(TodoResource, '/')
+api.add_resource(TodoListResource, '/todos/')
+api.add_resource(TodoResource, '/todo/<string:id>')
+api.add_resource(UserResource,'/user/<string:id>')
+api.add_resource(UserListResource,'/users/')
+api.add_resource(UserTodosResources, '/user/<string:user_id>/todos/')
+
 
 
 from todoApi.models import User, Todo
@@ -25,6 +30,4 @@ db.create_all()
 migrate= Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
-
-# from todoApi import routes
 
