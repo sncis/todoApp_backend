@@ -46,6 +46,7 @@ class UserResource(Resource):
 			abort(404, message="User with id {} does not exist".format(id))
 		return user
 
+
 class UserListResource(Resource):
 	@marshal_with(user_fields)
 	def get(self):
@@ -74,6 +75,20 @@ class UserListResource(Resource):
 		db.session.commit()
 		return user, 201
 
+	@marshal_with(user_fields)
+	def post(self):
+		parsed_args = userParser.parse_args()
+		username = parsed_args['username']
+		email = parsed_args['email']
+		password= parsed_args['password']
+
+		if not username or not email or not password:
+			abort(400, message="username, email or password is missing ")
+		user = User(username=username,email=email, password=password)
+		db.session.add(user)
+		db.session.commit()
+		return user, 200
+
 
 class TodoResource(Resource):
 	@marshal_with(todo_fields)
@@ -98,8 +113,8 @@ class TodoResource(Resource):
 		todo.title = parsed_args['title']
 		todo.description = parsed_args['description']
 		todo.estTime = parsed_args['estTime']
-		todo.create_at = parsed_args['create_at']
-		todo.deadline = parsed_args['desdline']
+		todo.created_at=datetime.strptime(parsed_args['created_at'], '%d/%m/%Y').date(),
+		todo.deadline=datetime.strptime(parsed_args['deadline'], '%d/%m/%Y').date(),
 		todo.user_id = parsed_args['user_id']
 		db.session.add(todo)
 		db.session.commit()
@@ -112,9 +127,9 @@ class TodoListResource(Resource):
 		parsed_args = todoParser.parse_args()
 		todo = Todo(title=parsed_args['title'], 
 		description=parsed_args['description'],
-		estTim=parsed_args['estTime'],
-		created_at=parsed_args['created_at'],
-		deadline=parsed_args['deadline'],
+		estTime=parsed_args['estTime'],
+		created_at=datetime.strptime(parsed_args['created_at'], '%d/%m/%Y').date(),
+		deadline=datetime.strptime(parsed_args['deadline'], '%d/%m/%Y').date(),
 		user_id=parsed_args['user_id'])
 		db.session.add(todo)
 		db.session.commit()
