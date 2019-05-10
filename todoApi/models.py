@@ -23,6 +23,7 @@ class Todo(db.Model):
 	estTime = db.Column(db.Float, nullable=False)
 	created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	deadline = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+	done = db.Column(db.Integer, nullable=False, default=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	#user in lowercase because we are referencing the table name (there are alsway lowercase) and Todo in User is a relationship an there
 	#we are referencing the class Todo

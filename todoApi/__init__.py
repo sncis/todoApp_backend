@@ -16,13 +16,13 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 from todoApi.resources import *
-api.add_resource(TodoListResource, '/todos')
-api.add_resource(TodoResource, '/todo/<string:id>')
-api.add_resource(UserResource,'/user<string:id>')
-api.add_resource(UserListResource,'/users/')
-api.add_resource(UserTodosResources, '/user/<string:user_id>/todos/')
+api.add_resource(UserResource,'/user/<string:user_id>')
+api.add_resource(TodoResource, '/user/<string:user_id>/todo/<string:id>')
+api.add_resource(TodoListResource, '/user/<string:user_id>/todos/')
+api.add_resource(DoneTodosListResource,'/user/<string:user_id>/todos/done')
+api.add_resource(FilteredTodos,'/user/<string:user_id>/todos/filter')
 
-
+# api.add_resource(UserListResource,'/users')
 
 from todoApi.models import User, Todo
 db.create_all()
